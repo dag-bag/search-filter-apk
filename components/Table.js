@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React, { useState } from "react";
 
-function Table({ columns, data, setData }) {
+function Table({ columns, data, setData, Loading, setLoading }) {
   const [Query, setQuery] = useState("");
   const handleChange = (e) => {
     setQuery(e.target.value);
@@ -11,7 +11,7 @@ function Table({ columns, data, setData }) {
 
   const sorting = async (e) => {
     setSelect(e.target.value);
-
+    setLoading(true);
     const resp = await fetch(`/api/data`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -20,11 +20,12 @@ function Table({ columns, data, setData }) {
       body: JSON.stringify({ sort: e.target.value }),
     });
     const respData = await resp.json();
-
+    setLoading(false);
     setData(respData.data);
   };
   const HandleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     const resp = await fetch(`/api/data`, {
       method: "POST", // or 'PUT'
       headers: {
@@ -33,6 +34,7 @@ function Table({ columns, data, setData }) {
       body: JSON.stringify({ query: Query, SeachIn }),
     });
     const respData = await resp.json();
+    setLoading(false);
     setData(respData.data);
   };
   let rates = [
@@ -134,7 +136,13 @@ function Table({ columns, data, setData }) {
             <div className="mt-7 overflow-x-auto">
               <table className="w-[87vw] whitespace-nowrap">
                 <tbody>
-                  {data &&
+                  {Loading && (
+                    <div className="h-[50vh] flex justify-center items-center">
+                      {" "}
+                      <h1 className="text-center text-4xl">Loading.....</h1>
+                    </div>
+                  )}
+                  {!Loading &&
                     data.map((i) => {
                       return (
                         <tr

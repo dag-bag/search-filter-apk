@@ -9,9 +9,11 @@ export default function Home({ data }) {
   const [Data, setData] = useState([]);
   const [Page, setPage] = useState(1);
   const [PageCount, setPageCount] = useState(0);
+  const [Loading, setLoading] = useState(false);
 
   const handlePrev = () => {
     router.push(`/?page=${Page}`);
+    3;
     setPage((p) => {
       if (p === 1) return 1;
       else {
@@ -33,7 +35,9 @@ export default function Home({ data }) {
     // const getData =async ()=>{
     //     const
     // }
+    setLoading(true);
     setData(data);
+    setLoading(false);
   }, [Page]);
 
   let columns = [
@@ -52,7 +56,13 @@ export default function Home({ data }) {
   ];
   return (
     <div>
-      <Table columns={columns} data={Data} setData={setData} />
+      <Table
+        columns={columns}
+        data={Data}
+        setData={setData}
+        Loading={Loading}
+        setLoading={setLoading}
+      />
       <Footer
         handleNext={handleNext}
         handlePrev={handlePrev}
