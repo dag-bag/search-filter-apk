@@ -27,16 +27,22 @@ function Table({ columns, data, setData, Loading, setLoading }) {
   const HandleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    const resp = await fetch(`/api/data`, {
-      method: "POST", // or 'PUT'
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ query: Query, SeachIn }),
-    });
-    const respData = await resp.json();
+    if (0 < Query.length) {
+      const resp = await fetch(`/api/data`, {
+        method: "POST", // or 'PUT'
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ query: Query, SeachIn }),
+      });
+      const respData = await resp.json();
+      setData(respData.data);
+    }
+    if (Query.length === 0) {
+      setData([]);
+    }
+
     setLoading(false);
-    setData(respData.data);
   };
   let rates = [
     { name: "NSE" },
