@@ -6,6 +6,7 @@ function Table({ columns, data, setData, Loading, setLoading }) {
   const handleChange = (e) => {
     setQuery(e.target.value);
   };
+
   const [Select, setSelect] = useState();
   const [SeachIn, setSeachIn] = useState("c");
 
@@ -134,7 +135,7 @@ function Table({ columns, data, setData, Loading, setLoading }) {
               })}
             </div>
             <div className="mt-7 overflow-x-auto">
-              <table className="w-[87vw] whitespace-nowrap">
+              <table className="w-[100vw] whitespace-nowrap">
                 <tbody>
                   {Loading && (
                     <div className="h-[50vh] flex justify-center items-center">
@@ -143,11 +144,12 @@ function Table({ columns, data, setData, Loading, setLoading }) {
                     </div>
                   )}
                   {!Loading &&
+                    data &&
                     data.map((i) => {
                       return (
                         <tr
                           key={i._id}
-                          className="h-16 border border-gray-100 rounded flex justify-between items-center text-center w-[60vw]"
+                          className="h-16 border border-gray-100 rounded flex justify-between items-center text-center w-[90vw]"
                         >
                           <td className="block w-14">
                             <p>{i.c}</p>
